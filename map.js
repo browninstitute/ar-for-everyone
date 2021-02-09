@@ -39,6 +39,12 @@ var layerTypes = {
 
       var header = document.createElement("div");
 
+      if (config.toptitle) {
+        var toptitle = document.createElement('h4');
+        toptitle.innerText = config.toptitle;
+        header.appendChild(toptitle);
+      }
+
       if (config.title) {
         var titleText = document.createElement("h1");
         titleText.innerText = config.title;
@@ -53,8 +59,15 @@ var layerTypes = {
 
       if (config.byline) {
         var bylineText = document.createElement("p");
-        bylineText.innerText = config.byline;
+        bylineText.classList.add("byline");
+        bylineText.innerHTML = config.byline;
         header.appendChild(bylineText);
+      }
+
+      if (config.description) {
+        var descriptionText = document.createElement('p');
+        descriptionText.innerHTML = config.description;
+        header.appendChild(descriptionText);
       }
 
       if (header.innerText.length > 0) {
@@ -169,6 +182,40 @@ var layerTypes = {
             },
           });
         }
+        map.addLayer({
+          id: 'warnData',
+          type: 'circle',
+          source: {
+            type: 'geojson',
+            data: 'data/warnDataGoogle.geojson'
+          },
+          paint: {
+              'circle-color': 'lightgray',
+              'circle-stroke-color': 'black',
+              'circle-stroke-width': 0.5,
+              'circle-radius': ['interpolate',['linear'],['zoom'],
+                  10, 4,
+                  14, 6,
+                  18, 12]
+          }
+        },'road-label');
+        map.addLayer({
+          id: 'warnData2019',
+          type: 'circle',
+          source: {
+            type: 'geojson',
+            data: 'data/warnDataGoogle2019.geojson'
+          },
+          paint: {
+              'circle-color': 'red',
+              'circle-stroke-color': 'black',
+              'circle-stroke-width': 0.5,
+              'circle-radius': ['interpolate',['linear'],['zoom'],
+                  10, 4,
+                  14, 6,
+                  18, 12]
+          }
+        },'road-label');
 
         // setup the instance, pass callback functions
         scroller

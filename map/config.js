@@ -4,7 +4,7 @@ var config = {
     showMarkers: false,
     markerColor: '#3FB1CE',
     theme: 'light',
-    use3dTerrain: false,
+    use3dTerrain: true,
     toptitle: 'AR for Everyone!',
     title: 'A Virtual Tour of the Businesses that Closed due to Covid-19 in New York City',
     // subtitle: '',
@@ -51,7 +51,7 @@ var config = {
             description: 'Copy these sections to add to your story.',
             location: {
                 center: [-73.963,40.718],
-                zoom: 8.5,
+                zoom: 16,
                 pitch: 60,
                 bearing: -43.2
             },

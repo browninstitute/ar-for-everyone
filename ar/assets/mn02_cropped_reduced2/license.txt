@@ -1,0 +1,11 @@
+Model Information:
+* title:	MN02_cropped_reduced2
+* source:	https://sketchfab.com/3d-models/mn02-cropped-reduced2-0fd0bf52c77a493f91801bd2864019bd
+* author:	the Brown Institute (https://sketchfab.com/browninstitute)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "MN02_cropped_reduced2" (https://sketchfab.com/3d-models/mn02-cropped-reduced2-0fd0bf52c77a493f91801bd2864019bd) by the Brown Institute (https://sketchfab.com/browninstitute) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

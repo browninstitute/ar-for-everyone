@@ -190,6 +190,8 @@ var layerTypes = {
             data: 'data/warnDataGoogle.geojson'
           },
           paint: {
+              'circle-opacity': 0,
+              'circle-stroke-opacity': 0,
               'circle-color': 'lightgray',
               'circle-stroke-color': 'black',
               'circle-stroke-width': 0.5,
@@ -207,6 +209,8 @@ var layerTypes = {
             data: 'data/warnDataGoogle2019.geojson'
           },
           paint: {
+              'circle-opacity': 0,
+              'circle-stroke-opacity': 0,
               'circle-color': 'red',
               'circle-stroke-color': 'black',
               'circle-stroke-width': 0.5,

@@ -161,6 +161,14 @@ if (config.showMarkers) {
 var scroller = scrollama();
 
 map.on("load", function () {
+  // var layers = map.getStyle().layers;
+  // for (var i = 0; i < layers.length; i++) {
+  //   console.log(layers[i]);
+    // if (layers[i].type === "symbol") {
+    //   firstSymbolId = layers[i].id;
+    //   break;
+    // }
+  // }
   if (config.use3dTerrain) {
     map.addSource("mapbox-dem", {
       type: "raster-dem",
@@ -193,20 +201,10 @@ map.on("load", function () {
       paint: {
         "circle-opacity": 0,
         "circle-stroke-opacity": 0,
-        "circle-color": "lightgray",
+        "circle-color": "gold",
         "circle-stroke-color": "black",
         "circle-stroke-width": 0.5,
-        "circle-radius": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          10,
-          4,
-          14,
-          6,
-          18,
-          12,
-        ],
+        "circle-radius": ["interpolate", ["linear"], ["zoom"], 10,3.5,14,4,18,12],
       },
     },
     "road-label"
@@ -222,23 +220,13 @@ map.on("load", function () {
       paint: {
         "circle-opacity": 0,
         "circle-stroke-opacity": 0,
-        "circle-color": "red",
+        "circle-color": "darkgray",
         "circle-stroke-color": "black",
         "circle-stroke-width": 0.5,
-        "circle-radius": [
-          "interpolate",
-          ["linear"],
-          ["zoom"],
-          10,
-          4,
-          14,
-          6,
-          18,
-          12,
-        ],
+        "circle-radius": ["interpolate", ["linear"], ["zoom"], 10,3.5,14,4,18,12],
       },
     },
-    "road-label"
+    "warnData"
   );
   map.addLayer(
     {
@@ -287,14 +275,14 @@ map.on("load", function () {
         "line-width": 1.5
       },
     },
-    "road-label"
+    "warnData2019"
   );
 
   // setup the instance, pass callback functions
   scroller
     .setup({
       step: ".step",
-      offset: 0.5,
+      offset: 0.75,
       progress: true,
     })
     .onStepEnter((response) => {

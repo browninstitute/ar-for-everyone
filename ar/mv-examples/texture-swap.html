@@ -1,0 +1,64 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Model viewer example: Animation </title>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <style>
+    model-viewer {
+      width: 80vw;
+      height: 45vw;
+      /* 16:9 */
+    }
+  </style>
+</head>
+
+<body>
+  <model-viewer 
+    camera-controls 
+    ar 
+    src="../assets/mv_assets/helmet/DamagedHelmet.glb"
+    ios-src="../assets/mv_assets/helmet/DamagedHelmet.usdz" 
+    alt="A 3D model of a helmet"
+  >
+  </model-viewer>
+
+
+  <p>
+    Model borrowed from
+    <a href='https://modelviewer.dev/examples/scenegraph/#swapTextures'>
+      https://modelviewer.dev/examples/scenegraph/#swapTextures
+    </a>
+    just for testing purposes, converted to USDZ with
+    <a href='https://developer.apple.com/download/more/?=USDPython'>Apple's conversion script</a>
+  </p>
+
+
+  <script>
+    const modelViewer = document.querySelector("model-viewer");
+    const textures = [
+      "../assets/mv_assets/helmet/Default_albedo.jpg",
+      "../assets/mv_assets/helmet/Lantern_baseColor.png",
+      "../assets/mv_assets/helmet/WaterBottle_baseColor.png"
+    ]
+    let texIndex = 0
+
+    modelViewer.addEventListener('load', () => {
+      let material = modelViewer.model.materials[0];
+      let applyPBRTexture = (channel, url) => {
+        // material.pbrMetallicRoughness[channel].texture.source.setURI(url);
+        material[channel].texture.source.setURI(url);
+      }
+
+      setInterval(() => {
+        console.log('changing texture')
+        texIndex = (texIndex + 1) % textures.length
+        applyPBRTexture('emissiveTexture', textures[texIndex]);
+      }, 1500.0);
+    });
+  </script>
+</body>
+
+</html>

@@ -40,32 +40,32 @@ features.setAttribute("id", "features");
 var header = document.createElement("div");
 
 if (config.toptitle) {
-  var toptitle = document.createElement("h4");
-  toptitle.innerText = config.toptitle;
+  var toptitle = document.createElement("div");
+  toptitle.innerHTML = config.toptitle;
   header.appendChild(toptitle);
 }
 
 if (config.title) {
-  var titleText = document.createElement("h1");
-  titleText.innerText = config.title;
+  var titleText = document.createElement("div");
+  titleText.innerHTML = config.title;
   header.appendChild(titleText);
 }
 
 if (config.subtitle) {
-  var subtitleText = document.createElement("h2");
-  subtitleText.innerText = config.subtitle;
+  var subtitleText = document.createElement("div");
+  subtitleText.innerHTML = config.subtitle;
   header.appendChild(subtitleText);
 }
 
 if (config.byline) {
-  var bylineText = document.createElement("p");
-  bylineText.classList.add("byline");
+  var bylineText = document.createElement("div");
+  // bylineText.classList.add("byline");
   bylineText.innerHTML = config.byline;
   header.appendChild(bylineText);
 }
 
 if (config.description) {
-  var descriptionText = document.createElement("p");
+  var descriptionText = document.createElement("div");
   descriptionText.innerHTML = config.description;
   header.appendChild(descriptionText);
 }
@@ -79,6 +79,7 @@ if (header.innerText.length > 0) {
 config.chapters.forEach((record, idx) => {
   var container = document.createElement("div");
   var chapter = document.createElement("div");
+  chapter.innerHTML = record.chapterDiv;
 
   if (record.title) {
     var title = document.createElement("h3");

@@ -2,10 +2,7 @@
 
 TODO:
 
-* Change the map.js code to get html and not just text, so that I can format the whole thing
-* Add Tachyons
-* Change the fonts to Avenir (titles) and Consolas (text and notes)
-* Add charts
+* Align the labels to the top (is it a matter of max-length?)
 
 */
 

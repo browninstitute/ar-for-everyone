@@ -263,9 +263,9 @@ map.on("load", function () {
       "icon-offset": [5, 0],
       "text-field": [
         "format",
-        ["get", "company"],
+        ["upcase", ["get", "company"]],
         {
-          "font-scale": 0.75,
+          "font-scale": 0.7,
         },
         "\n",
         {},
@@ -281,10 +281,10 @@ map.on("load", function () {
         },
       ],
       "text-justify": "left",
-      "text-anchor": "bottom-left",
-      "text-offset": [0.5, -9.5],
+      "text-anchor": "top-left",
+      "text-offset": [0.5, -12.5],
       "text-font": ["literal", ["Oswald Regular"]],
-      "text-padding": 10,
+      "text-padding": 1,
     },
     paint: {
       "text-color": "#666666",

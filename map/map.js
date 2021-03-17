@@ -191,6 +191,10 @@ map.on("load", function () {
       },
     });
   }
+  map.loadImage('./img/lineIcon.png', function (error, image) {
+    if (error) throw error;
+    map.addImage('lineIcon', image);
+  });
   map.addLayer(
     {
       id: "warnData",
@@ -245,6 +249,51 @@ map.on("load", function () {
     },
     "road-label"
   );
+  map.addLayer({
+    id: "warnBuildingsLabels",
+    type: "symbol",
+    source: {
+      type: "geojson",
+      data: "data/warnBuildings2020.geojson",
+    },
+    layout: {
+      "icon-image": "lineIcon",
+      "icon-size": 0.4,
+      "icon-anchor": "bottom-left",
+      "icon-offset": [5, 0],
+      "text-field": [
+        "format",
+        ["get", "company"],
+        {
+          "font-scale": 0.75,
+        },
+        "\n",
+        {},
+        ["get", "businessTy"],
+        {
+          "font-scale": 0.65,
+        },
+        "\n",
+        {},
+        ["concat", ["get", "numberAffe"], " people affected"],
+        {
+          "font-scale": 0.65,
+        },
+      ],
+      "text-justify": "left",
+      "text-anchor": "bottom-left",
+      "text-offset": [0.5, -9.5],
+      "text-font": ["literal", ["Oswald Regular"]],
+      "text-padding": 10,
+    },
+    paint: {
+      "text-color": "#666666",
+      "text-halo-color": "white",
+      "text-halo-width": 1,
+      "icon-halo-color": "white",
+      "icon-halo-width": 1,
+    },
+  });
   map.addLayer(
     {
       id: "warnBuildings2020extrusion",

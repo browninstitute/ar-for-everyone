@@ -185,6 +185,11 @@ var config = {
           opacity: 0,
           duration: 300,
         },
+        {
+          layer: "warnBuildingsLabels",
+          opacity: 0,
+          duration: 300,
+        },
       ],
       onChapterExit: [
         {
@@ -219,6 +224,11 @@ var config = {
       onChapterEnter: [
         {
           layer: "warnBuildings2020extrusion",
+          opacity: 1,
+          duration: 300,
+        },
+        {
+          layer: "warnBuildingsLabels",
           opacity: 1,
           duration: 300,
         },

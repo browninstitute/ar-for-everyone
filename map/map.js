@@ -1,3 +1,5 @@
+var smallMedia = window.matchMedia("(max-width: 600px)").matches;
+
 var layerTypes = {
   fill: ["fill-opacity"],
   line: ["line-opacity"],
@@ -79,6 +81,7 @@ if (header.innerText.length > 0) {
 config.chapters.forEach((record, idx) => {
   var container = document.createElement("div");
   var chapter = document.createElement("div");
+  chapter.classList.add("br3");
   chapter.innerHTML = record.chapterDiv;
 
   if (record.title) {
@@ -142,11 +145,19 @@ const transformRequest = (url) => {
   };
 };
 
+var startingZoom;
+if (smallMedia) {
+  startingZoom = config.chapters[0].location.zoomSmall;
+} else {
+  startingZoom = config.chapters[0].location.zoom;
+}
+
 var map = new mapboxgl.Map({
   container: "map",
   style: config.style,
   center: config.chapters[0].location.center,
-  zoom: config.chapters[0].location.zoom,
+  // zoom: config.chapters[0].location.zoom,
+  zoom: startingZoom,
   bearing: config.chapters[0].location.bearing,
   pitch: config.chapters[0].location.pitch,
   interactive: false,
@@ -165,10 +176,10 @@ map.on("load", function () {
   // var layers = map.getStyle().layers;
   // for (var i = 0; i < layers.length; i++) {
   //   console.log(layers[i]);
-    // if (layers[i].type === "symbol") {
-    //   firstSymbolId = layers[i].id;
-    //   break;
-    // }
+  // if (layers[i].type === "symbol") {
+  //   firstSymbolId = layers[i].id;
+  //   break;
+  // }
   // }
   if (config.use3dTerrain) {
     map.addSource("mapbox-dem", {
@@ -191,9 +202,9 @@ map.on("load", function () {
       },
     });
   }
-  map.loadImage('./img/lineIcon.png', function (error, image) {
+  map.loadImage("./img/lineIcon.png", function (error, image) {
     if (error) throw error;
-    map.addImage('lineIcon', image);
+    map.addImage("lineIcon", image);
   });
   map.addLayer(
     {
@@ -209,7 +220,17 @@ map.on("load", function () {
         "circle-color": "gold",
         "circle-stroke-color": "black",
         "circle-stroke-width": 0.5,
-        "circle-radius": ["interpolate", ["linear"], ["zoom"], 10,3.5,14,4,18,12],
+        "circle-radius": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          10,
+          3.5,
+          14,
+          4,
+          18,
+          12,
+        ],
       },
     },
     "road-label"
@@ -228,7 +249,17 @@ map.on("load", function () {
         "circle-color": "darkgray",
         "circle-stroke-color": "black",
         "circle-stroke-width": 0.5,
-        "circle-radius": ["interpolate", ["linear"], ["zoom"], 10,3.5,14,4,18,12],
+        "circle-radius": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          10,
+          3.5,
+          14,
+          4,
+          18,
+          12,
+        ],
       },
     },
     "warnData"
@@ -319,10 +350,10 @@ map.on("load", function () {
         data: "data/newYorkStateBorder.geojson",
       },
       paint: {
-        "line-dasharray": [1.5,1.5],
+        "line-dasharray": [1.5, 1.5],
         "line-color": "darkgray",
-        "line-opacity":1,
-        "line-width": 1.5
+        "line-opacity": 1,
+        "line-width": 1.5,
       },
     },
     "warnData2019"
@@ -340,7 +371,20 @@ map.on("load", function () {
         (chap) => chap.id === response.element.id
       );
       response.element.classList.add("active");
-      map[chapter.mapAnimation || "flyTo"](chapter.location);
+      let thisZoom;
+      if (smallMedia) {
+        thisZoom = chapter.location.zoomSmall;
+      } else {
+        thisZoom = chapter.location.zoom;
+      }
+      console.log(chapter.location);
+      thisLocation = {
+        bearing: chapter.location.bearing,
+        center: chapter.location.center,
+        pitch: chapter.location.pitch,
+        zoom: thisZoom
+      };
+      map[chapter.mapAnimation || "flyTo"](thisLocation);
       if (config.showMarkers) {
         marker.setLngLat(chapter.location.center);
       }

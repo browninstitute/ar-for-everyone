@@ -15,8 +15,26 @@
   <body>
     <div id="map"></div>
     <div id="story"></div>
-    <model-viewer src="model/scene.glb" ios-src="model/scene.usdz"
-      alt="A 3D model of NYC" interaction-prompt='none' camera-controls ar>
+    <model-viewer 
+      src="model/scene.glb" 
+      ios-src="model/scene.usdz"
+      alt="A 3D model of NYC" 
+      interaction-prompt='none' 
+      camera-controls 
+      ar
+      ar-modes="scene-viewer webxr quick-look" 
+      ar-scale="auto"
+    >
+      <button slot="hotspot-0" class="hotspot -style1"
+        data-position="-0.006753349575098259m 0.024136089076778368m 0.04783992196475524m"
+        data-normal="0.0020652036911731654m -3.077393310030051e-11m 0.9999978674645833m">
+        <div class="annotation">tallest building</div>
+      </button>
+      <button slot="hotspot-1" class="hotspot -style2"
+        data-position="0.02738091090982889m 0.01704401075968693m -0.04810182437039673m"
+        data-normal="0.007781348545960762m -1.159511289888734e-10m -0.9999697248491108m">
+        <div class="annotation">square building</div>
+      </button>
     </model-viewer>
     <script src="./config.js"></script>
     <script src='./map.js'></script>

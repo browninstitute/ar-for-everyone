@@ -61,14 +61,14 @@ body {
     margin: 1em auto 1em auto;
 } */
 #features h3 {
-    /* font-weight: 700;
+  /* font-weight: 700;
     text-transform: uppercase;
     font-family: 'Merriweather', serif;
     text-align: left;
     max-width: 50vw; */
 }
 #features p {
-    /* font-family: 'Sometype Mono', sans-serif;
+  /* font-family: 'Sometype Mono', sans-serif;
     text-align: left;
     font-size: 1.2em;
     max-width: 50vw; */
@@ -78,7 +78,7 @@ body {
   margin-top: -5px;
 }
 #footer p {
-  font-family: 'Sometype Mono', sans-serif;
+  font-family: "Sometype Mono", sans-serif;
   font-size: 0.9em;
   max-width: 600px;
   padding: 1em;
@@ -139,14 +139,31 @@ body {
 
 /* Fix issue on mobile browser where scroll breaks  */
 .mapboxgl-canvas-container.mapboxgl-touch-zoom-rotate.mapboxgl-touch-drag-pan,
-.mapboxgl-canvas-container.mapboxgl-touch-zoom-rotate.mapboxgl-touch-drag-pan
-  .mapboxgl-canvas {
+.mapboxgl-canvas-container.mapboxgl-touch-zoom-rotate.mapboxgl-touch-drag-pan .mapboxgl-canvas {
   touch-action: unset;
 }
 
+/* ~~~~~~~~ MODEL VIEWER ~~~~~~~~ */
 
 model-viewer {
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0,0,0,0.75);
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+.hotspot {
+  --min-hotspot-opacity: 0;
+  padding: 1rem;
+  font-family: "Sometype Mono", sans-serif;
+  -webkit-appearance: none;
+  border: none;
+  border-radius: 10px;
+}
+
+.hotspot.-style1 {
+  background-color: rgb(255, 255, 131);
+}
+
+.hotspot.-style2 {
+  background-color: rgb(131, 133, 255);
 }

@@ -152,18 +152,41 @@ model-viewer {
 }
 
 .hotspot {
+  display: block;
   --min-hotspot-opacity: 0;
-  padding: 1rem;
-  font-family: "Sometype Mono", sans-serif;
   -webkit-appearance: none;
   border: none;
   border-radius: 10px;
+  width: 20px;
+  height: 20px;
+}
+
+#ar-button {
+  z-index: 100000;
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
 }
 
 .hotspot.-style1 {
-  background-color: rgb(255, 255, 131);
+  background-color: rgb(255, 131, 148);
 }
 
 .hotspot.-style2 {
   background-color: rgb(131, 133, 255);
+}
+
+.annotation {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  min-width: 200px;
+  transform: translate(20px, -20px);
+  background-color: white;
+  border-radius: 10px;
+  padding: 10px;
+  font-family: "Sometype Mono", sans-serif;
+  text-align: left;
+  line-height: 1.2;
+  font-size: 0.8rem;
 }

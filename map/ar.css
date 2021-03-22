@@ -1,0 +1,123 @@
+/* ~~~~~~~~ MODEL VIEWER ~~~~~~~~ */
+
+#ar {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  --hotel-bg: rgb(255, 131, 148);
+  --theatre-bg: rgb(131, 133, 255);
+  --restaurant-bg: rgb(236, 255, 131);
+  --retail-bg: rgb(131, 255, 148);
+  --misc-bg: rgb(210, 131, 255);
+}
+
+#menu {
+  z-index: 10;
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.7);
+  top: 3rem;
+  left: 3rem;
+  padding: 2rem 4rem;
+  min-width: 300px;
+}
+
+.annotation__category {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.annotation__blob {
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+}
+
+.annotation__name {
+  padding: 0 1rem;
+  font-family: sans-serif;
+}
+
+.annotation__category.selected .annotation__name {
+  font-weight: bold;
+}
+
+model-viewer {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+.hotspot {
+  display: block;
+  --min-hotspot-opacity: 0;
+  -webkit-appearance: none;
+  border: none;
+  border-radius: 5px;
+  width: 10px;
+  height: 10px;
+  cursor: pointer;
+}
+
+.hotspot[data-category="hotel"],
+.annotation__category[data-category="hotel"] .annotation__blob {
+  background-color: var(--hotel-bg);
+}
+
+.hotspot[data-category="theatre"],
+.annotation__category[data-category="theatre"] .annotation__blob {
+  background-color: var(--theatre-bg);
+}
+
+.hotspot[data-category="restaurant"],
+.annotation__category[data-category="restaurant"] .annotation__blob {
+  background-color: var(--restaurant-bg);
+}
+
+.hotspot[data-category="retail"],
+.annotation__category[data-category="retail"] .annotation__blob {
+  background-color: var(--retail-bg);
+}
+
+.hotspot[data-category="misc"],
+.annotation__category[data-category="misc"] .annotation__blob {
+  background-color: var(--misc-bg);
+}
+
+.annotation {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  min-width: 200px;
+  transform: translate(10px, -10px);
+  background-color: white;
+  border-radius: 10px;
+  padding: 10px;
+  font-family: "Sometype Mono", sans-serif;
+  text-align: left;
+  line-height: 1.2;
+  font-size: 0.8rem;
+  display: none;
+  cursor: auto;
+}
+
+.hotspot.visible {
+  border-radius: 7.5px;
+  width: 15px;
+  height: 15px;
+}
+
+.hotspot.visible .annotation {
+  display: block;
+}
+
+.annotation__title {
+  font-weight: bold;
+  margin: 0;
+}
+
+.annotation__text {
+  margin: 0;
+  text-transform: capitalize;
+}

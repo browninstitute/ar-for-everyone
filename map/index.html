@@ -12,43 +12,60 @@
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
   <link rel="stylesheet" href="https://unpkg.com/tachyons@4.12.0/css/tachyons.min.css" />
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="ar.css" />
 </head>
 
 <body>
   <div id="map"></div>
   <div id="story"></div>
-  <model-viewer src="model/scene.glb" ios-src="model/scene.usdz" alt="A 3D model of NYC" interaction-prompt='none'
-    camera-controls ar ar-modes="webxr quick-look" ar-scale="auto">
 
-    <button slot="hotspot-0" class="hotspot -style1" data-position="0.05 0.05 0.05" data-normal="0 1 1"
-      data-visibility-attribute="visible">
-      <div class="annotation">tallest building</div>
-    </button>
-
-
-
-    <button slot="hotspot-1" class="hotspot -style2"
-      data-position="0.02738091090982889m 0.01704401075968693m -0.04810182437039673m"
-      data-normal="0.007781348545960762m -1.159511289888734e-10m -0.9999697248491108m">
-      <div class="annotation">
-        <b>business name</b> <br />
-        BROOKS BROTHERS GROUP, INC<br />
-        <b>Number of people affected:</b><br />
-        160 (71 retail store; 89 corporate offices)<br />
-        <b>Notice date:</b><br />
-        8/26/2020
+  <div id='ar'>
+    <model-viewer 
+      src="model/scene.glb" 
+      ios-src="model/scene.usdz" 
+      alt="A 3D model of NYC" 
+      interaction-prompt='none'
+      camera-orbit="-10deg 35deg 1m"
+      camera-controls
+      disable-zoom 
+      ar 
+      ar-modes="webxr quick-look" 
+      ar-scale="auto"
+    >
+    </model-viewer>
+    <div id='menu'>
+      <div class='annotation__category' data-category='hotel'>
+        <div class='annotation__blob'></div>
+        <p class='annotation__name'> Hotel </p>
       </div>
-    </button>
 
-    <button slot="hotspot-2" class="hotspot -style2"
-      data-position="0.15439483023146697m 0.0036133989499034375m -0.0037336032457593897m"
-      data-normal="0.007076019569784916m -1.0544090822018557e-10m 0.9999749646601399m">
-      <div class="annotation">small building</div>
-    </button>
-  </model-viewer>
+      <div class='annotation__category' data-category='theatre'>
+        <div class='annotation__blob'></div>
+        <p class='annotation__name'> Theatre </p>
+      </div>
 
+      <div class='annotation__category' data-category='restaurant'>
+        <div class='annotation__blob'></div>
+        <p class='annotation__name'> Restaurant </p>
+      </div>
+
+      <div class='annotation__category' data-category='retail'>
+        <div class='annotation__blob'></div>
+        <p class='annotation__name'> Retail </p>
+      </div>
+
+      <div class='annotation__category' data-category='misc'>
+        <div class='annotation__blob'></div>
+        <p class='annotation__name'> Misc </p>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="./data/annotations.js"></script>
   <script src="./config.js"></script>
   <script src='./map.js'></script>
+  <script src="./ar.js"></script>
 </body>
 
 </html>

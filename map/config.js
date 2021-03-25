@@ -235,7 +235,13 @@ var config = {
           duration: 300,
         },
       ],
-      onChapterExit: [],
+      onChapterExit: [
+        {
+          layer: "warnBuildings2020extrusion",
+          opacity: 0,
+          duration: 300,
+        },
+      ],
     },
     {
       id: "nycHighlightBuildings",
@@ -257,12 +263,33 @@ var config = {
       callback: "",
       onChapterEnter: [
         {
-          layer: "warnBuildings2020extrusion",
+          layer: "warnBuildingsOverpass",
           opacity: 1,
           duration: 300,
         },
+        {
+          layer: "warnBuildingsLabels",
+          opacity: 1,
+          duration: 300,
+        },
+        {
+          layer: "otherBuildingsOverpass",
+          opacity: 0.5,
+          duration: 300,
+        },
       ],
-      onChapterExit: [],
+      onChapterExit: [
+        {
+          layer: "warnBuildingsOverpass",
+          opacity: 0,
+          duration: 300,
+        },
+        {
+          layer: "otherBuildingsOverpass",
+          opacity: 0,
+          duration: 300,
+        },
+      ],
     },
   ],
 };

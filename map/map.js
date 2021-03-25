@@ -343,6 +343,35 @@ map.on("load", function () {
   );
   map.addLayer(
     {
+      id: "warnBuildingsOverpass",
+      type: "fill-extrusion",
+      source: {
+        type: "geojson",
+        data: "data/warnBuildingsOverpass.geojson"
+      },
+      paint: {
+        "fill-extrusion-opacity": 0,
+        "fill-extrusion-height": ["to-number", ["get", "height"]],
+        "fill-extrusion-color": "gold"
+      }
+    },
+    "road-label"
+  );
+  map.addLayer({
+    id: "otherBuildingsOverpass",
+    type: "fill-extrusion",
+    source: {
+      type: "geojson",
+      data: "data/otherBuildings.geojson",
+    },
+    paint: {
+      "fill-extrusion-opacity": 0,
+      "fill-extrusion-height": ["to-number", ["get", "height"]],
+      "fill-extrusion-color": "#e1e5e5",
+    },
+  });
+  map.addLayer(
+    {
       id: "nyState",
       type: "line",
       source: {
@@ -377,7 +406,6 @@ map.on("load", function () {
       } else {
         thisZoom = chapter.location.zoom;
       }
-      console.log(chapter.location);
       thisLocation = {
         bearing: chapter.location.bearing,
         center: chapter.location.center,

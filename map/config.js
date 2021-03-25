@@ -289,6 +289,11 @@ var config = {
           opacity: 0,
           duration: 300,
         },
+        {
+          layer: "warnBuildingsLabels",
+          opacity: 0,
+          duration: 300,
+        },
       ],
     },
   ],

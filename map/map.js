@@ -244,8 +244,8 @@ map.on("load", function () {
         data: "data/warnDataGoogle2019.geojson",
       },
       paint: {
-        "circle-opacity": 0,
-        "circle-stroke-opacity": 0,
+        "circle-opacity": 1,
+        "circle-stroke-opacity": 1,
         "circle-color": "darkgray",
         "circle-stroke-color": "black",
         "circle-stroke-width": 0.5,

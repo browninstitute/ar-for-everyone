@@ -32,10 +32,11 @@ let divChapter2 =
 
 let divChapter3 =
   '<div class="ph4 pt3 pb4"><p class="avenir tl f4">2020 WARN NOTICES IN NEW YORK CITY</p>' +
-  '<p class="code tl lh-copy f6">But the of course the brunt of WARN notices for 2020 were issued by businesses in New York City. From 170 notices in 2019, the city jumped to more than 1,500, a 8-fold increase. And according to these notices submitted to the state, more than XX people where layed off in New York City during the course of 2020.</p>' +
+  '<p class="code tl lh-copy f6">But of course the brunt of WARN notices for 2020 were issued by businesses in New York City. From 170 notices in 2019, the city jumped to more than 1,500, a 8-fold increase. And according to these notices submitted to the state, more than 170,000 people where layed off in New York City during the course of 2020.</p>' +
   '<p class="code tl lh-copy f7 mt4">Location of WARN notices</p>' +
   '<svg class="dib v-mid" height="18" width="18"><circle cx="9" cy="9" r="7" stroke="black" stroke-width="0.8" fill="#a9a9a9" /></svg><p class="dib v-mid code tl lh-copy f7 pl1 mv0">2019</p><br>' +
   '<svg class="dib v-mid" height="18" width="18"><circle cx="9" cy="9" r="7" stroke="black" stroke-width="0.8" fill="#ffd700" /></svg><p class="dib v-mid code tl lh-copy f7 pl1 mv2">2020</p>' +
+  '<img src="./img/nycBarCharts.svg" class="w-100 pt0 mt3" alt="Bar chart of number of notices and people affected in New York City">' +
   "</div>";
 
 let divChapter4 =

@@ -264,22 +264,6 @@ map.on("load", function () {
     },
     "warnData"
   );
-  map.addLayer(
-    {
-      id: "warnBuildings2020",
-      type: "fill",
-      source: {
-        type: "geojson",
-        data: "data/warnBuildings2020.geojson",
-      },
-      paint: {
-        "fill-opacity": 0,
-        "fill-color": "gold",
-        "fill-outline-color": "black",
-      },
-    },
-    "road-label"
-  );
   map.addLayer({
     id: "warnBuildingsLabels",
     type: "symbol",
@@ -324,7 +308,9 @@ map.on("load", function () {
       "icon-halo-color": "white",
       "icon-halo-width": 1,
     },
-  });
+  },
+  "state-label"
+  );
   map.addLayer(
     {
       id: "warnBuildings2020extrusion",
@@ -343,33 +329,37 @@ map.on("load", function () {
   );
   map.addLayer(
     {
-      id: "warnBuildingsOverpass",
+      id: "otherBuildingsOverpass",
       type: "fill-extrusion",
       source: {
         type: "geojson",
-        data: "data/warnBuildingsOverpass.geojson"
+        data: "data/otherBuildings.geojson",
       },
       paint: {
         "fill-extrusion-opacity": 0,
         "fill-extrusion-height": ["to-number", ["get", "height"]],
-        "fill-extrusion-color": "gold"
-      }
+        "fill-extrusion-color": "#e1e5e5",
+      },
     },
     "road-label"
   );
-  map.addLayer({
-    id: "otherBuildingsOverpass",
-    type: "fill-extrusion",
-    source: {
-      type: "geojson",
-      data: "data/otherBuildings.geojson",
+  map.addLayer(
+    {
+      id: "warnBuildingsOverpass",
+      type: "fill-extrusion",
+      source: {
+        type: "geojson",
+        data: "data/warnBuildingsOverpass.geojson",
+      },
+      paint: {
+        "fill-extrusion-opacity": 0,
+        "fill-extrusion-height": ["to-number", ["get", "height"]],
+        "fill-extrusion-color": "gold",
+      },
     },
-    paint: {
-      "fill-extrusion-opacity": 0,
-      "fill-extrusion-height": ["to-number", ["get", "height"]],
-      "fill-extrusion-color": "#e1e5e5",
-    },
-  });
+    "otherBuildingsOverpass"
+  );
+  
   map.addLayer(
     {
       id: "nyState",

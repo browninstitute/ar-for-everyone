@@ -25,14 +25,15 @@
       ios-src="model/scene.usdz" 
       alt="A 3D model of NYC" 
       interaction-prompt='none'
-      camera-orbit="-10deg 35deg 1m"
+      camera-orbit="0.5deg 30deg 12m"
+      camera-target="1cm 1cm 0.2cm"
       camera-controls
       disable-zoom 
       ar 
       ar-modes="webxr quick-look" 
       ar-scale="auto"
     >
-    </model-viewer>
+   
     <div id='menu'>
       <div class='annotation__category' data-category='hotel'>
         <div class='annotation__blob'></div>
@@ -59,6 +60,8 @@
         <p class='annotation__name'> Misc </p>
       </div>
     </div>
+
+    </model-viewer>
   </div>
 
 

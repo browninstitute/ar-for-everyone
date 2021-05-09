@@ -21,12 +21,18 @@ window.addEventListener('load', e => {
     const label = document.createElement('div')
     label.classList.add('annotation')
     label.innerHTML = `
+      <div class='annotation__section'>
       <p class='annotation__title'> Business name </p>
       <p class='annotation__text'> ${data.name} </p>
-      <p class='annotation__title'> Number of people affected </p>
+      </div>
+      <div class='annotation__section'>
+      <p class='annotation__title'> People affected </p>
       <p class='annotation__text'> ${data.count} </p>
+      </div>
+      <div class='annotation__section'>
       <p class='annotation__title'> Notice date </p>
       <p class='annotation__text'> ${data.date} </p>
+      </div>
     `
     hotspot.appendChild(label)
     viewer.appendChild(hotspot)

@@ -1,0 +1,16 @@
+current directory: /Users/zivschneider/Brown Institute Dropbox/Ziv Schneider/BROWN/Journalism360/repo/ar-for-everyone/vendor/bundle/ruby/3.0.0/gems/http_parser.rb-0.6.0/ext/ruby_http_parser
+/usr/local/opt/ruby/bin/ruby -I /usr/local/Cellar/ruby/3.0.0_1/lib/ruby/3.0.0 -r ./siteconf20210629-5470-tng2oe.rb extconf.rb
+creating Makefile
+
+current directory: /Users/zivschneider/Brown Institute Dropbox/Ziv Schneider/BROWN/Journalism360/repo/ar-for-everyone/vendor/bundle/ruby/3.0.0/gems/http_parser.rb-0.6.0/ext/ruby_http_parser
+make "DESTDIR=" clean
+
+current directory: /Users/zivschneider/Brown Institute Dropbox/Ziv Schneider/BROWN/Journalism360/repo/ar-for-everyone/vendor/bundle/ruby/3.0.0/gems/http_parser.rb-0.6.0/ext/ruby_http_parser
+make "DESTDIR="
+compiling ruby_http_parser.c
+clang: error: no such file or directory: 'Institute'
+clang: error: no such file or directory: 'Dropbox/Ziv'
+clang: error: no such file or directory: 'Schneider/BROWN/Journalism360/repo/ar-for-everyone/vendor/bundle/ruby/3.0.0/gems/http_parser.rb-0.6.0/ext/ruby_http_parser'
+make: *** [ruby_http_parser.o] Error 1
+
+make failed, exit code 2

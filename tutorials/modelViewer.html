@@ -1,0 +1,86 @@
+<h2 id="introduction">Introduction</h2>
+<p><a href="https://modelviewer.dev/">Model viewer</a> is a javascript library by Google that makes it easy to add 3d content on a website. It uses custom HTML tags to do this so embedding a model is similar to adding an image or video to a webpage:</p>
+<pre><code class="lang-HTML"><span class="hljs-tag">&lt;<span class="hljs-name">model-viewer</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"path/to/3dmodel.glb"</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">"A 3D model"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">model-viewer</span>&gt;</span>
+</code></pre>
+<p>model-viewer takes care of framing the model on all screen sizes, i.e. it&#39;s responsive by default. Doing this with other 3d frameworks can often involve several lines of javascript code. It also allows for animated models, using environment images for lighting, annotations, camera controls, AR and more — a lot of which can be controlled directly through HTML parameters.</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">model-viewer</span>
+    <span class="hljs-attr">camera-controls</span>
+    <span class="hljs-attr">skybox-image</span>=<span class="hljs-string">"path/to/skyboxImage.jpg"</span>
+    <span class="hljs-attr">alt</span>=<span class="hljs-string">"A 3D model"</span>
+    <span class="hljs-attr">src</span>=<span class="hljs-string">"path/to/3dmodel.glb"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">model-viewer</span>&gt;</span>
+</code></pre>
+<p><strong>Some useful links:</strong></p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=lsScEabNutA">A presentation introducing model-viewer from Google&#39;s DevXR team (2019)</a></li>
+<li><a href="https://modelviewer.dev/examples/">Examples</a> and <a href="https://modelviewer.dev/docs/">documentation</a></li>
+<li><a href="https://github.com/google/model-viewer/releases">Release page with info on the newest features added</a></li>
+<li><a href="https://twitter.com/modelviewer">model-viewer twitter account for more examples and updates</a></li>
+<li><a href="https://modelviewer.dev/editor/">model-viewer editor for creating HTML snippets through an interface</a></li>
+</ul>
+<h2 id="device-compatibility">Device compatibility</h2>
+<p>The web standards for AR are still a work in progress, and constantly changing, as is browser support. model-viewer gets around this by using operating-system specific &#39;AR viewing apps&#39; that integrate seamlessly with the browser experience. There are 3 modes available:</p>
+<ul>
+<li><code>webxr</code> for browsers that support the current <code>WebXR</code> spec (Chrome 86+ on Android)</li>
+<li><code>quick-look</code> for iOS devices</li>
+<li><code>scene-viewer</code> for Android devices</li>
+</ul>
+<p>It&#39;s important to note that QuickLook and SceneViewer are native apps. Once AR mode is launched through these apps, any custom javascript code from the webpage will no longer be able to run. The functionality and UX are determined by the apps, and features such as annotations do not work in these modes.</p>
+<h2 id="preparing-a-model">Preparing a model</h2>
+<p>model-viewer accepts only <code>.gltf</code> or <code>.glb</code> models. (<code>.gltf</code> models often have textures stored as separate files. It&#39;s important to to keep them in the same relative location to the <code>.gltf</code>). For displaying a model in AR on iOS, one also needs to provide a <code>.usdz</code> version of the model.</p>
+<p>Here are some tools that can help with converting a model to these formats :</p>
+<ul>
+<li>Models uploaded to <a href="https://help.sketchfab.com/hc/en-us/articles/360046421631-glTF-and-USDZ">Sketchfab</a> are automatically converted to a variety of formats that can then be downloaded</li>
+<li>The <a href="https://threejs.org/editor/">three.js editor</a> allows you to drag a model into it, and then export in a variety of formats</li>
+<li>Command lines tools for <a href="https://github.com/google/usd_from_gltf">gltf→usdz</a>, <a href="https://github.com/facebookincubator/FBX2glTF">fbx→gltf</a> and <a href="https://github.com/CesiumGS/obj2gltf">obj→gltf</a></li>
+<li><a href="https://developer.apple.com/news/?id=01132020a">Apple Reality Convertor</a> for USDZ conversion (only for mac os 10.15.4+)</li>
+<li><a href="https://sbtron.github.io/makeglb/">GLTF to GLB online conversion tool</a></li>
+</ul>
+<p>\
+<strong>Note on 3d model feature support:</strong></p>
+<p>QuickLook (on iOS devices) does not support all features part of the <code>.gltf</code> spec. When converting a model to <code>.usdz</code>, some of these features could be emulated, while some will not work at all. See <a href="https://help.sketchfab.com/hc/en-us/articles/360046421631-glTF-and-USDZ">here</a> for a list of <code>.usdz</code> limitations from Sketchfab, and a <a href="https://github.com/google/usd_from_gltf#compatibility">more detailed list</a> along with emulations possible through the Google command line tool.</p>
+<h2 id="enabling-ar">Enabling AR</h2>
+<p>There are a few attributes that need to be included in the HTML tag for a model to work in AR:</p>
+<pre><code class="lang-html">&lt;model-viewer
+    src=<span class="hljs-string">"path/to/3dmodel.glb"</span>
+    ios-src=<span class="hljs-string">"path/to/USDZmodel.usdz"</span>
+    <span class="hljs-keyword">ar</span>
+    <span class="hljs-keyword">ar</span>-<span class="hljs-keyword">mode</span>=<span class="hljs-string">"webxr scene-viewer quick-look"</span>
+    alt=<span class="hljs-string">"A 3D model that works in AR"</span>&gt;
+&lt;/model-viewer&gt;
+</code></pre>
+<p>See <a href="https://modelviewer.dev/examples/augmentedreality/">here</a> for more examples. The object can also be placed on a wall instead of the floor, and the AR button can be customized. It&#39;s important to note that the AR button will only be displayed on devices that support AR, so while developing on a laptop/desktop this button will not appear.</p>
+<p>If <code>quick-look</code> is specified in the <code>ar-mode</code> list, but no <code>.usdz</code> model is provided, one will be generated on the fly. This is a new feature however, and might not produce desired results.</p>
+<p><strong>Note about scale:</strong></p>
+<p>The only options for pre-setting scale (<code>ar-scale</code>) in AR mode are <code>auto</code> and <code>fixed</code> - auto allows the model to be resized by pinching, whereas fixed always renders the model at 100% scale. The <code>gltf</code> format&#39;s scale is set in <em>meters</em> — so a model of scale 1 will render fairly large in AR mode — keep this unit in mind while preparing the model.</p>
+<h2 id="camera">Camera</h2>
+<p>model-viewer comes with default camera controls for rotation and zoom, the ability to set the camera orbit and target, auto-rotate, field of view and more. The camera works on a spherical coordinate system, set by a radius, and inclination and azimuth angles. Interact with <a href="https://browninstitute.github.io/ar-for-everyone/interactive-demo">this demo</a> to see how these values affect the camera (+ play around with different lighting settings). See here for more <a href="https://modelviewer.dev/examples/stagingandcameras/">examples</a> and <a href="https://modelviewer.dev/docs/#stagingandcameras">documentation</a>.</p>
+<h2 id="annotations">Annotations</h2>
+<p>model-viewer lets you add annotations to the model by specifying its position and normal. Annotations can be styled through CSS, and can be set to be &#39;always visible&#39; or occluded depending on the rotation of the model. Annotation (&#39;hotspot&#39;) locations can be selected through the <a href="https://modelviewer.dev/editor/">model-viewer editor</a> (generates an HTML snippet and allows for entering label text), or on <a href="https://modelviewer.dev/examples/tester.html">this</a> page (displays position and normal values).</p>
+<p>Here is how an annotation is plugged into the model-viewer HTML:</p>
+<pre><code class="lang-html">&lt;model-viewer src=<span class="hljs-string">"scene.glb"</span> camera-controls&gt;
+    &lt;<span class="hljs-selector-tag">button</span>
+            class=<span class="hljs-string">"Hotspot"</span>
+            slot=<span class="hljs-string">"hotspot-1"</span>
+            data-<span class="hljs-attribute">position</span>=<span class="hljs-string">"0.08125757912266225m 0.01903929367409709m 0.048820624535711885m"</span>
+            data-<span class="hljs-attribute">normal</span>=<span class="hljs-string">"-0.004757698885123861m 7.089523799901993e-11m -0.9999886820866116m"</span>
+            data-<span class="hljs-attribute">visibility</span>-attribute=<span class="hljs-string">"visible"</span>&gt;
+        &lt;<span class="hljs-selector-tag">div</span> class=<span class="hljs-string">"HotspotAnnotation"</span>&gt;Here is <span class="hljs-selector-tag">a</span> <span class="hljs-selector-tag">label</span> <span class="hljs-keyword">for</span> the annotation&lt;/div&gt;
+    &lt;/button&gt;
+&lt;/model-viewer&gt;
+</code></pre>
+<p><strong>Note:</strong> Annotations currently work only in the browser and in WebXR mode for AR (Chrome 83+ on Android).</p>
+<h2 id="using-model-viewer-with-react-bundling-tools">Using model-viewer with React / bundling tools</h2>
+<p>model-viewer might not always play well with frameworks like React and javascript bundling tools. Often a solution is to include the non-module version of model-viewer (or specify paths to both):</p>
+<pre><code class="lang-jsx"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>
+    <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>
+  <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"</span>
+/&gt;</span><span class="handlebars"><span class="xml">
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>
+  <span class="hljs-attr">nomodule</span>
+  <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"</span>
+/&gt;</span><span class="undefined"></span></span></span>
+</code></pre>
+<p>You can also use an <code>import</code> statement like so:</p>
+<pre><code class="lang-jsx"><span class="hljs-selector-tag">import</span> "@<span class="hljs-keyword">google</span>/<span class="hljs-keyword">model</span>-<span class="hljs-keyword">viewer</span>/<span class="hljs-keyword">dist</span>/<span class="hljs-keyword">model</span>-<span class="hljs-keyword">viewer</span>-<span class="hljs-keyword">legacy</span>"
+</code></pre>

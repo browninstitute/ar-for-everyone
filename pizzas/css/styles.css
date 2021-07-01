@@ -53,8 +53,42 @@ a:visited{
   max-width: 16rem;
 }
 
-element.style {
+.toggle-mute {
+  position: absolute;
+  top: 0;
+  right: 32px;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
+
+.toggle-mute:hover {
+  background-color: rgba(0,0,0,.05);
+}
+
+.audio-btn {
+  width: 60%;
+  height: 60%;
+  display: none;
+}
+
+.toggle-mute .mute {
+  display: block;
+}
+
+.toggle-mute.muted .mute {
+  display: none;
+}
+
+.toggle-mute.muted .unmute {
+  display: block;
+}
+
+
+
 .b {
     font-weight: 700;
 }

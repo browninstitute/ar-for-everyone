@@ -15,6 +15,7 @@ const inListFilter = [
 ];
 let audio = null;
 let currentMarker = null;
+let muted = false
 
 // Create and initialize map variable
 const map = new mapboxgl.Map({
@@ -109,6 +110,10 @@ function getPopupHTML(props) {
         if (props.scan === "1") {
           return `
             <div>
+              <div class='toggle-mute ${muted ? 'muted' : ''}'>
+                <img class='audio-btn mute' src='./assets/mute.svg'/>
+                <img class='audio-btn unmute' src='./assets/unmute.svg'/>
+              </div>
               <p class='f5 mt0 mb0 lh-copy'>
                 <span class='b'>price:</span> $${props.price}
               </p>
@@ -158,7 +163,12 @@ function showPopup(props) {
 
   if (props.scan === "1") {
     audio = new Audio(`${props["3dModel"]}/audio.m4a`);
+    document.querySelector('.toggle-mute').style.display = ''
+    audio.addEventListener('error', () => {
+      document.querySelector('.toggle-mute').style.display = 'none'
+    })
     audio.loop = true;
+    audio.muted = muted
     audio.play();
   }
 
@@ -235,6 +245,16 @@ map.on("mouseleave", "pizzaPlaces", function () {
 mapContainer.addEventListener("click", (e) => {
   if (e.target.classList.contains("mapboxgl-popup-close-button")) {
     stopAudio();
+  } else if (e.target.classList.contains("toggle-mute") || e.target.classList.contains("audio-btn")) {
+    if(muted) {
+      document.querySelector('.toggle-mute').classList.remove("muted")
+      muted = false
+      if(audio) audio.muted = false
+    } else {
+      document.querySelector('.toggle-mute').classList.add("muted")
+      muted = true
+      if (audio) audio.muted = true
+    }
   }
 });
 

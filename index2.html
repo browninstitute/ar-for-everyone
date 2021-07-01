@@ -1,0 +1,49 @@
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>AR for Everyone! | The Brown Institute for Media Innovation</title>
+  <meta name="description" content="NYC Pizzas!">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="https://unpkg.com/tachyons@4.12.0/css/tachyons.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  </head>
+
+
+
+<body class="center w-two-thirds-l w-two-thirds-m w-90">
+  <model-viewer
+    src="./assets/title.gltf"
+    ios-src="./assets/title.usdz"
+    alt="A 3D model of NYC"
+    interaction-prompt='none'
+    camera-controls
+    ar
+    >
+
+  </model-viewer>
+    <div class="center w-100 pt4 pb1">
+
+        <!-- <p class="tl mv0 f1 lh-title">AR for Everyone!</p> -->
+        <p class="tl mv0 f3 lh-copy">an exploration of browser based AR using Model-Viewer</p>
+        <p class="tl f4 lh-copy">This project was made at the <a class="link" href="https://brown.columbia.edu/" target="_blank">Brown Institute for Media Innovation</a>
+            with support from the ONA Journalism 360 grant.
+            <br>
+            Built by: Ziv Schneider, Juan Francisco Saldarriaga, and Sukanya Aneja.<br>
+
+            For enquiries please contact browninstitute@columbia.edu</p>
+
+        <p class="tl f2 lh-copy">Documentation</p>
+        <p class="tl f4 lh-copy"><a class="link" href="tutorials/modelViewer.html">How to Use Model Viewer</a></p>
+        <p class="tl f2 lh-copy">Prototypes</p>
+        <p class="tl f5 lh-copy i">Best viewed on Google Chrome on your mobile device.</p>
+        <p class="tl f4 lh-copy"><a class="link" href="map/index.html">A Virtual Tour of the Businesses that Closed due to COVID-19 in New York City</p>
+        <p class="tl f4 lh-copy"><a class="link" href="pizzas/index.html">The Quest for the Ultimate Slice in NYC</p>
+    </div>
+</body>
+</html>

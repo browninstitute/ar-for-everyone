@@ -1,86 +1,674 @@
-<h2 id="introduction">Introduction</h2>
-<p><a href="https://modelviewer.dev/">Model viewer</a> is a javascript library by Google that makes it easy to add 3d content on a website. It uses custom HTML tags to do this so embedding a model is similar to adding an image or video to a webpage:</p>
-<pre><code class="lang-HTML"><span class="hljs-tag">&lt;<span class="hljs-name">model-viewer</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"path/to/3dmodel.glb"</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">"A 3D model"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">model-viewer</span>&gt;</span>
-</code></pre>
-<p>model-viewer takes care of framing the model on all screen sizes, i.e. it&#39;s responsive by default. Doing this with other 3d frameworks can often involve several lines of javascript code. It also allows for animated models, using environment images for lighting, annotations, camera controls, AR and more — a lot of which can be controlled directly through HTML parameters.</p>
-<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">model-viewer</span>
-    <span class="hljs-attr">camera-controls</span>
-    <span class="hljs-attr">skybox-image</span>=<span class="hljs-string">"path/to/skyboxImage.jpg"</span>
-    <span class="hljs-attr">alt</span>=<span class="hljs-string">"A 3D model"</span>
-    <span class="hljs-attr">src</span>=<span class="hljs-string">"path/to/3dmodel.glb"</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">model-viewer</span>&gt;</span>
-</code></pre>
-<p><strong>Some useful links:</strong></p>
-<ul>
-<li><a href="https://www.youtube.com/watch?v=lsScEabNutA">A presentation introducing model-viewer from Google&#39;s DevXR team (2019)</a></li>
-<li><a href="https://modelviewer.dev/examples/">Examples</a> and <a href="https://modelviewer.dev/docs/">documentation</a></li>
-<li><a href="https://github.com/google/model-viewer/releases">Release page with info on the newest features added</a></li>
-<li><a href="https://twitter.com/modelviewer">model-viewer twitter account for more examples and updates</a></li>
-<li><a href="https://modelviewer.dev/editor/">model-viewer editor for creating HTML snippets through an interface</a></li>
-</ul>
-<h2 id="device-compatibility">Device compatibility</h2>
-<p>The web standards for AR are still a work in progress, and constantly changing, as is browser support. model-viewer gets around this by using operating-system specific &#39;AR viewing apps&#39; that integrate seamlessly with the browser experience. There are 3 modes available:</p>
-<ul>
-<li><code>webxr</code> for browsers that support the current <code>WebXR</code> spec (Chrome 86+ on Android)</li>
-<li><code>quick-look</code> for iOS devices</li>
-<li><code>scene-viewer</code> for Android devices</li>
-</ul>
-<p>It&#39;s important to note that QuickLook and SceneViewer are native apps. Once AR mode is launched through these apps, any custom javascript code from the webpage will no longer be able to run. The functionality and UX are determined by the apps, and features such as annotations do not work in these modes.</p>
-<h2 id="preparing-a-model">Preparing a model</h2>
-<p>model-viewer accepts only <code>.gltf</code> or <code>.glb</code> models. (<code>.gltf</code> models often have textures stored as separate files. It&#39;s important to to keep them in the same relative location to the <code>.gltf</code>). For displaying a model in AR on iOS, one also needs to provide a <code>.usdz</code> version of the model.</p>
-<p>Here are some tools that can help with converting a model to these formats :</p>
-<ul>
-<li>Models uploaded to <a href="https://help.sketchfab.com/hc/en-us/articles/360046421631-glTF-and-USDZ">Sketchfab</a> are automatically converted to a variety of formats that can then be downloaded</li>
-<li>The <a href="https://threejs.org/editor/">three.js editor</a> allows you to drag a model into it, and then export in a variety of formats</li>
-<li>Command lines tools for <a href="https://github.com/google/usd_from_gltf">gltf→usdz</a>, <a href="https://github.com/facebookincubator/FBX2glTF">fbx→gltf</a> and <a href="https://github.com/CesiumGS/obj2gltf">obj→gltf</a></li>
-<li><a href="https://developer.apple.com/news/?id=01132020a">Apple Reality Convertor</a> for USDZ conversion (only for mac os 10.15.4+)</li>
-<li><a href="https://sbtron.github.io/makeglb/">GLTF to GLB online conversion tool</a></li>
-</ul>
-<p>\
-<strong>Note on 3d model feature support:</strong></p>
-<p>QuickLook (on iOS devices) does not support all features part of the <code>.gltf</code> spec. When converting a model to <code>.usdz</code>, some of these features could be emulated, while some will not work at all. See <a href="https://help.sketchfab.com/hc/en-us/articles/360046421631-glTF-and-USDZ">here</a> for a list of <code>.usdz</code> limitations from Sketchfab, and a <a href="https://github.com/google/usd_from_gltf#compatibility">more detailed list</a> along with emulations possible through the Google command line tool.</p>
-<h2 id="enabling-ar">Enabling AR</h2>
-<p>There are a few attributes that need to be included in the HTML tag for a model to work in AR:</p>
-<pre><code class="lang-html">&lt;model-viewer
-    src=<span class="hljs-string">"path/to/3dmodel.glb"</span>
-    ios-src=<span class="hljs-string">"path/to/USDZmodel.usdz"</span>
-    <span class="hljs-keyword">ar</span>
-    <span class="hljs-keyword">ar</span>-<span class="hljs-keyword">mode</span>=<span class="hljs-string">"webxr scene-viewer quick-look"</span>
-    alt=<span class="hljs-string">"A 3D model that works in AR"</span>&gt;
-&lt;/model-viewer&gt;
-</code></pre>
-<p>See <a href="https://modelviewer.dev/examples/augmentedreality/">here</a> for more examples. The object can also be placed on a wall instead of the floor, and the AR button can be customized. It&#39;s important to note that the AR button will only be displayed on devices that support AR, so while developing on a laptop/desktop this button will not appear.</p>
-<p>If <code>quick-look</code> is specified in the <code>ar-mode</code> list, but no <code>.usdz</code> model is provided, one will be generated on the fly. This is a new feature however, and might not produce desired results.</p>
-<p><strong>Note about scale:</strong></p>
-<p>The only options for pre-setting scale (<code>ar-scale</code>) in AR mode are <code>auto</code> and <code>fixed</code> - auto allows the model to be resized by pinching, whereas fixed always renders the model at 100% scale. The <code>gltf</code> format&#39;s scale is set in <em>meters</em> — so a model of scale 1 will render fairly large in AR mode — keep this unit in mind while preparing the model.</p>
-<h2 id="camera">Camera</h2>
-<p>model-viewer comes with default camera controls for rotation and zoom, the ability to set the camera orbit and target, auto-rotate, field of view and more. The camera works on a spherical coordinate system, set by a radius, and inclination and azimuth angles. Interact with <a href="https://browninstitute.github.io/ar-for-everyone/interactive-demo">this demo</a> to see how these values affect the camera (+ play around with different lighting settings). See here for more <a href="https://modelviewer.dev/examples/stagingandcameras/">examples</a> and <a href="https://modelviewer.dev/docs/#stagingandcameras">documentation</a>.</p>
-<h2 id="annotations">Annotations</h2>
-<p>model-viewer lets you add annotations to the model by specifying its position and normal. Annotations can be styled through CSS, and can be set to be &#39;always visible&#39; or occluded depending on the rotation of the model. Annotation (&#39;hotspot&#39;) locations can be selected through the <a href="https://modelviewer.dev/editor/">model-viewer editor</a> (generates an HTML snippet and allows for entering label text), or on <a href="https://modelviewer.dev/examples/tester.html">this</a> page (displays position and normal values).</p>
-<p>Here is how an annotation is plugged into the model-viewer HTML:</p>
-<pre><code class="lang-html">&lt;model-viewer src=<span class="hljs-string">"scene.glb"</span> camera-controls&gt;
-    &lt;<span class="hljs-selector-tag">button</span>
-            class=<span class="hljs-string">"Hotspot"</span>
-            slot=<span class="hljs-string">"hotspot-1"</span>
-            data-<span class="hljs-attribute">position</span>=<span class="hljs-string">"0.08125757912266225m 0.01903929367409709m 0.048820624535711885m"</span>
-            data-<span class="hljs-attribute">normal</span>=<span class="hljs-string">"-0.004757698885123861m 7.089523799901993e-11m -0.9999886820866116m"</span>
-            data-<span class="hljs-attribute">visibility</span>-attribute=<span class="hljs-string">"visible"</span>&gt;
-        &lt;<span class="hljs-selector-tag">div</span> class=<span class="hljs-string">"HotspotAnnotation"</span>&gt;Here is <span class="hljs-selector-tag">a</span> <span class="hljs-selector-tag">label</span> <span class="hljs-keyword">for</span> the annotation&lt;/div&gt;
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>How to </title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+</style></head><body><article id="ac3a15e1-44ad-445d-8e15-dd8465e94c3b" class="page sans"><header><div class="page-header-icon undefined"></div>
+<p><a href="/../index.html"> Home</a>
+  <h1 class="page-title">How to Use Model Viewer</h1></header><div class="page-body"><h2 id="b5ef785b-1878-401c-ad3f-5a63851a0bec" class="">Introduction</h2><p id="1a2811bb-8172-4c76-9a0c-35f889e85387" class="">model-viewer is a javascript library by Google that makes it easy to add 3d content on a website. It uses custom HTML tags to do this so embedding a model is similar to adding an image or video to a webpage:</p><pre id="a202cf26-eb70-4d78-8f88-230ba0d75738" class="code"><code>&lt;model-viewer src=&quot;path/to/3dmodel.glb&quot; alt=&quot;A 3D model&quot;&gt;&lt;/model-viewer&gt;</code></pre><p id="cad14d92-8187-4a90-8114-6cf65249601b" class="">
+</p><p id="cca0881e-5dcb-4810-8948-eca75560f9ed" class="">model-viewer takes care of framing the model on all screen sizes, i.e. it&#x27;s responsive by default. Doing this with other 3d frameworks can often involve several lines of javascript code. It also allows for animated models, using environment images for lighting, annotations, camera controls, AR and more — a lot of which can be controlled directly through HTML parameters.</p><pre id="5f70bd9e-5346-42fa-9e5a-c479d1458e81" class="code"><code>&lt;model-viewer
+	camera-controls
+	skybox-image=&quot;path/to/skyboxImage.jpg&quot;
+	alt=&quot;A 3D model&quot;
+	src=&quot;path/to/3dmodel.glb&quot;&gt;
+&lt;/model-viewer&gt;</code></pre><p id="d9da3b88-1209-4984-8307-1ba8ccba4861" class="">
+</p><p id="571c230b-3a9c-45b1-a018-c24f84401333" class=""><strong>Some useful links:</strong></p><ul id="49c557ac-dc04-4b93-b26b-150d4e71d16b" class="bulleted-list"><li><a href="https://www.youtube.com/watch?v=lsScEabNutA">A presentation introducing model-viewer from Google&#x27;s DevXR team (2019)</a></li></ul><ul id="c036eefc-d265-45eb-bc3a-f78b69dc8dbd" class="bulleted-list"><li><a href="https://modelviewer.dev/examples/">Examples</a> and <a href="https://modelviewer.dev/docs/">documentation</a></li></ul><ul id="f353e400-fa9e-45d4-a94a-42929e14daa7" class="bulleted-list"><li><a href="https://github.com/google/model-viewer/releases">Release page with info on the newest features added</a> </li></ul><ul id="794210f8-981f-4300-822a-d985bd3b1f6e" class="bulleted-list"><li><a href="https://twitter.com/modelviewer">model-viewer twitter account for more examples and updates</a></li></ul><ul id="ccfa11a2-bec8-458a-9600-bd7ce054bed4" class="bulleted-list"><li><a href="https://modelviewer.dev/editor/">model-viewer editor for creating HTML snippets through an interface</a></li></ul><p id="9a0bbd5d-401a-43b2-8367-05bbe88ef44b" class="">
+</p><p id="6a197a28-4390-47a7-8d0a-7b5b68f67762" class="">
+</p><h2 id="2d187692-416f-4eb3-bb87-9060a55db909" class="">Device compatibility</h2><p id="fd1801eb-fae4-43fa-bfaf-d5e5c7973e9e" class="">The web standards for AR are still a work in progress, and constantly changing, as is browser support. model-viewer gets around this by using operating-system specific &#x27;AR viewing apps&#x27; that integrate seamlessly with the browser experience. There are 3 modes available:</p><ul id="6ae4ce7e-728d-44e6-9b11-11484dd4cf11" class="bulleted-list"><li><code>webxr</code> for browsers that support the current <code>WebXR</code> spec (Chrome 86+ on Android)</li></ul><ul id="d29ef443-1d21-43ab-90c3-7a589651cfe3" class="bulleted-list"><li><code>quick-look</code> for iOS devices</li></ul><ul id="e8c776dc-e0d3-46bc-af5a-7965f12a3ce2" class="bulleted-list"><li><code>scene-viewer</code> for Android devices</li></ul><p id="d41d52a8-a7b8-4dfd-8d59-025a9731a1af" class="">It&#x27;s important to note that QuickLook and SceneViewer are native apps. Once AR mode is launched through these apps, any custom javascript code from the webpage will no longer be able to run. The functionality and UX are determined by the apps, and features such as annotations do not work in these modes.</p><p id="f910a351-7709-440b-bee4-d5cf19f56bf7" class="">
+</p><p id="a425ead4-23e6-40bf-8e4d-1237179a4b45" class="">
+</p><h2 id="849dd20d-7dbf-4369-b271-2d3efe4611bd" class="">Preparing a model</h2><p id="4af325f5-cb10-464e-8f8c-1d4e2c64a399" class="">model-viewer accepts only <code>.gltf</code> or <code>.glb</code> models. (<code>.gltf</code> models often have textures stored as separate files. It&#x27;s important to to keep them in the same relative location to the <code>.gltf</code>). For displaying a model in AR on iOS, one also needs to provide a <code>.usdz</code> version of the model. </p><p id="e94222a2-58dd-4e35-89ec-8d7fdbe3ce98" class="">Here are some tools that can help with converting a model to these formats :</p><ul id="0bbf9f25-2f4b-4e6f-8fd4-f4d9b0dbb552" class="bulleted-list"><li>Models uploaded to <a href="https://help.sketchfab.com/hc/en-us/articles/360046421631-glTF-and-USDZ">Sketchfab</a> are automatically converted to a variety of formats that can then be downloaded</li></ul><ul id="f028af41-09d6-4771-ad0f-05b1d1e545ac" class="bulleted-list"><li>The <a href="https://threejs.org/editor/">three.js editor</a> allows you to drag a model into it, and then export in a variety of formats</li></ul><ul id="cb0c9882-2b71-4869-b8a7-d25b347adf8e" class="bulleted-list"><li>Command lines tools for <a href="https://github.com/google/usd_from_gltf">gltf→usdz</a>, <a href="https://github.com/facebookincubator/FBX2glTF">fbx→gltf</a> and <a href="https://github.com/CesiumGS/obj2gltf">obj→gltf</a></li></ul><ul id="3bb1a039-c1c0-4255-a8ce-cc169bef48da" class="bulleted-list"><li><a href="https://developer.apple.com/news/?id=01132020a">Apple Reality Convertor</a> for USDZ conversion (only for mac os 10.15.4+)</li></ul><ul id="4d5a1dac-5f96-4749-b126-e854c057ed89" class="bulleted-list"><li><a href="https://sbtron.github.io/makeglb/">GLTF to GLB online conversion tool</a></li></ul><p id="97402bcb-1db5-413b-a0c2-0f741b1e56ba" class="">
+</p><p id="e79f6d15-8482-4295-b94f-51ef6764cb38" class=""><strong>Note on 3d model feature support:</strong></p><p id="34cf42d4-2688-42d9-9fcd-786634bca774" class="">QuickLook (on iOS devices) does not support all features part of the <code>.gltf</code> spec. When converting a model to <code>.usdz</code>, some of these features could be emulated, while some will not work at all. See <a href="https://help.sketchfab.com/hc/en-us/articles/360046421631-glTF-and-USDZ">here</a> for a list of <code>.usdz</code> limitations from Sketchfab, and a <a href="https://github.com/google/usd_from_gltf#compatibility">more detailed list</a> along with emulations possible through the Google command line tool. </p><p id="67036a99-3428-4fe6-8ddc-8495f7486181" class="">
+</p><p id="fefe557a-727a-4575-82ac-c24d4579d1d6" class="">
+</p><h2 id="e82dea09-4cc8-4a9e-8c30-2b679999ba6a" class="">Enabling AR</h2><p id="e221ce63-67c3-482f-9af7-42cac7a114d2" class="">There are a few attributes that need to be included in the HTML tag for a model to work in AR:</p><pre id="70da389a-1190-4981-a51f-b201cfb35161" class="code"><code>&lt;model-viewer
+	src=&quot;path/to/3dmodel.glb&quot;
+	ios-src=&quot;path/to/USDZmodel.usdz&quot;
+	ar
+	ar-mode=&quot;webxr scene-viewer quick-look&quot;
+	alt=&quot;A 3D model that works in AR&quot;&gt;
+&lt;/model-viewer&gt;</code></pre><p id="fa7fb824-acc2-4798-844d-4fb60dbd3a72" class="">See <a href="https://modelviewer.dev/examples/augmentedreality/">here</a> for more examples. The object can also be placed on a wall instead of the floor, and the AR button can be customized. It&#x27;s important to note that the AR button will only be displayed on devices that support AR, so while developing on a laptop/desktop this button will not appear.</p><p id="d070dd9b-426c-45b8-a3e1-5c83c3aa23d1" class="">If <code>quick-look</code> is specified in the <code>ar-mode</code> list, but no <code>.usdz</code> model is provided, one will be generated on the fly. This is a new feature however, and might not produce desired results.</p><p id="8aeca265-239b-4b48-8b33-c56e2ea260ab" class="">
+</p><p id="d84a6dfb-2f14-4c02-91ee-acedd01f48c2" class=""><strong>Note about scale:</strong></p><p id="608e17be-79bc-46b6-ae25-9cd0e7f633cd" class="">The only options for pre-setting scale (<code>ar-scale</code>) in AR mode are <code>auto</code> and <code>fixed</code> - auto allows the model to be resized by pinching, whereas fixed always renders the model at 100% scale. The <code>gltf</code> format&#x27;s scale is set in <em>meters</em> — so a model of scale 1 will render fairly large in AR mode — keep this unit in mind while preparing the model. </p><p id="f3323008-5a37-423f-838a-1957a0c05e06" class="">
+</p><p id="b8ab08eb-f8bd-4cde-8d75-ec4b08443d13" class="">
+</p><h2 id="b5744d09-594c-4beb-ab03-79385302e52d" class="">Camera</h2><p id="d2cbdf6f-87c8-46bd-aff1-576ed7d31b39" class="">model-viewer comes with default camera controls for rotation and zoom, the ability to set the camera orbit and target, auto-rotate, field of view and more. The camera works on a spherical coordinate system, set by a radius, and inclination and azimuth angles. Interact with <a href="https://browninstitute.github.io/ar-for-everyone/interactive-demo">this demo</a> to see how these values affect the camera (+ play around with different lighting settings). See here for more <a href="https://modelviewer.dev/examples/stagingandcameras/">examples</a> and <a href="https://modelviewer.dev/docs/#stagingandcameras">documentation</a>.</p><p id="727e9cd7-1ad3-4742-9eaf-dd3e0fbbfb24" class="">
+</p><p id="5ae5f335-2791-4d04-846b-ea64f797bbda" class="">
+</p><h2 id="18890a5b-cbe5-4f4e-ada5-f40479022947" class="">Annotations</h2><p id="fc2f2e7a-c800-4060-9e9e-526df1fec296" class="">model-viewer lets you add annotations to the model by specifying its position and normal. Annotations can be styled through CSS, and can be set to be &#x27;always visible&#x27; or occluded depending on the rotation of the model. Annotation (&#x27;hotspot&#x27;) locations can be selected through the <a href="https://modelviewer.dev/editor/">model-viewer editor</a> (generates an HTML snippet and allows for entering label text), or on <a href="https://modelviewer.dev/examples/tester.html">this</a> page (displays position and normal values).</p><p id="325d0d5e-f343-4db5-bbf5-ec164ab923ea" class="">Here is how an annotation is plugged into the model-viewer HTML:</p><pre id="93546827-1e77-4f33-8f2f-e21f977401e0" class="code"><code>&lt;model-viewer src=&quot;scene.glb&quot; camera-controls&gt;
+    &lt;button
+			class=&quot;Hotspot&quot;
+			slot=&quot;hotspot-1&quot;
+			data-position=&quot;0.08125757912266225m 0.01903929367409709m 0.048820624535711885m&quot;
+			data-normal=&quot;-0.004757698885123861m 7.089523799901993e-11m -0.9999886820866116m&quot;
+			data-visibility-attribute=&quot;visible&quot;&gt;
+        &lt;div class=&quot;HotspotAnnotation&quot;&gt;Here is a label for the annotation&lt;/div&gt;
     &lt;/button&gt;
-&lt;/model-viewer&gt;
-</code></pre>
-<p><strong>Note:</strong> Annotations currently work only in the browser and in WebXR mode for AR (Chrome 83+ on Android).</p>
-<h2 id="using-model-viewer-with-react-bundling-tools">Using model-viewer with React / bundling tools</h2>
-<p>model-viewer might not always play well with frameworks like React and javascript bundling tools. Often a solution is to include the non-module version of model-viewer (or specify paths to both):</p>
-<pre><code class="lang-jsx"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>
-    <span class="hljs-attr">type</span>=<span class="hljs-string">"module"</span>
-  <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"</span>
-/&gt;</span><span class="handlebars"><span class="xml">
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span>
-  <span class="hljs-attr">nomodule</span>
-  <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"</span>
-/&gt;</span><span class="undefined"></span></span></span>
-</code></pre>
-<p>You can also use an <code>import</code> statement like so:</p>
-<pre><code class="lang-jsx"><span class="hljs-selector-tag">import</span> "@<span class="hljs-keyword">google</span>/<span class="hljs-keyword">model</span>-<span class="hljs-keyword">viewer</span>/<span class="hljs-keyword">dist</span>/<span class="hljs-keyword">model</span>-<span class="hljs-keyword">viewer</span>-<span class="hljs-keyword">legacy</span>"
-</code></pre>
+&lt;/model-viewer&gt; </code></pre><p id="83c3ab1b-0aa7-4c91-8537-350bf7af733d" class=""><strong>Note: </strong>Annotations currently work only in the browser and in WebXR mode for AR (Chrome 83+ on Android). </p><p id="56deaf43-8489-45f5-aa94-d6bb81460b05" class="">
+</p><p id="311cbb41-79b6-419b-8f81-9fdda45517d6" class="">
+</p><h2 id="98cdf4cd-1d20-4cf0-bebc-5f2b7d0a04d1" class="">Using model-viewer with React / bundling tools</h2><p id="f20bde2f-a229-4658-8601-85fc94f714ce" class="">model-viewer might not always play well with frameworks like React and javascript bundling tools. Often a solution is to include the non-module version of model-viewer (or specify paths to both):</p><pre id="132703e0-ffcb-4749-94e3-34426e36ba4b" class="code"><code>&lt;script
+	type=&quot;module&quot;
+  src=&quot;https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js&quot;
+/&gt;
+&lt;script
+  nomodule
+  src=&quot;https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js&quot;
+/&gt;</code></pre><p id="f51516f6-7134-406c-a72e-e6d0f9c7840d" class="">You can also use an <code>import</code> statement like so:</p><pre id="ded1253e-e8e4-4cc3-ae25-958bea3b7b88" class="code"><code>import &quot;@google/model-viewer/dist/model-viewer-legacy&quot;</code></pre><p id="da4f6b8f-1901-492b-a496-b1b2726e435c" class="">
+</p></div></article></body></html>

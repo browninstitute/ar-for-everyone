@@ -96,7 +96,6 @@ function setupLayer(symbol) {
       },
       "pizzaPlaces"
     );
-    map.setFilter("pizzaPlaces", inListFilter);
     buttons.forEach((button) => button.addEventListener("click", filter));
   });
 }
@@ -185,10 +184,27 @@ function filter(e) {
   const name = e.target.dataset.filter;
   buttons.forEach((button) => button.classList.remove("active"));
   e.target.classList.add("active");
-  map.setFilter(
-    "pizzaPlaces",
-    name === "all" ? inListFilter : ["==", ["get", name], "1"]
-  );
+  if(name === 'all') {
+    map.setLayoutProperty(
+      'otherPlaces',
+      'visibility',
+      'visible'
+    );
+    map.setFilter(
+      "pizzaPlaces",
+      null
+    );
+  } else {
+    map.setLayoutProperty(
+      'otherPlaces',
+      'visibility',
+      'none'
+    );
+    map.setFilter(
+      "pizzaPlaces",
+      ["==", ["get", name], "1"]
+    );
+  }
 }
 
 map.on("load", function () {
